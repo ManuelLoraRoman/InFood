@@ -7,7 +7,8 @@ import os
 app = Flask(__name__, template_folder = "templates")
 
 ## VARIABLES ##
-
+keytraductor=os.environ['keytraductor']
+keynutrientes=os.environ['keynutrientes']
 constante = "raw"
 lista = []
 lista2 = []
@@ -39,7 +40,7 @@ def procesar_formulario():
         parames = parames + str(productos) + "/"
 
 #########    REQUEST 1ª TRADUCCIÓN   ########
-    payloadtraductor = {'lang':'es-en','key':'trnsl.1.1.20190513T121145Z.b8e8808123ec0a8c.e500bffc714ef1e8544f1eb7f8a452ed56379c23','text':parames}
+    payloadtraductor = {'lang':'es-en','key':keytraductor,'text':parames}
     r = requests.get(apitraductor,params = payloadtraductor)
 #############################################
 
@@ -50,7 +51,7 @@ def procesar_formulario():
                 j = j + " " + constante
 
 #########    REQUEST BUSCAR ID ALIMENTO   ########
-                payloadid = {'format':'json','ds':'Standard Reference','sort':'r','max':5,'offset':0,'api_key':'lUgddO70hhfm4CCp5WycOz1IdhUbfcbjI7vZ1iEA','q':j}
+                payloadid = {'format':'json','ds':'Standard Reference','sort':'r','max':5,'offset':0,'api_key':keynutrientes,'q':j}
                 v = requests.get(apiid,params=payloadid)
 ##################################################
 
@@ -60,7 +61,7 @@ def procesar_formulario():
 
 #########    REQUEST BUSCAR ID ALIMENTO   ########
 
-                    payloaddatos = {'type':'b','format':'json','api_key':'lUgddO70hhfm4CCp5WycOz1IdhUbfcbjI7vZ1iEA','ndbno':id}
+                    payloaddatos = {'type':'b','format':'json','api_key':keynutrientes,'ndbno':id}
                     u = requests.get(apinutrientes,params = payloaddatos)
 ##################################################
 
@@ -120,7 +121,7 @@ def procesar_recetas():
 
 #########    REQUEST TRADUCIR LISTA DE LA COMPRA  ###########
 
-    payloadtraductor = payloadtraductor = {'lang':'es-en','key':'trnsl.1.1.20190513T121145Z.b8e8808123ec0a8c.e500bffc714ef1e8544f1eb7f8a452ed56379c23','text':receta}
+    payloadtraductor = payloadtraductor = {'lang':'es-en','key':keytraductor,'text':receta}
     trad = requests.get(apitraductor,params = payloadtraductor)
 
     if trad.status_code == 200:
