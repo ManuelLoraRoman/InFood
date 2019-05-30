@@ -170,7 +170,5 @@ def procesar_recetas():
         abort(404)
 
 
-if __name__=='__main__':
-    port=os.environ["PORT"]
-    app.run('0.0.0.0',int(port), debug=True)	
+if __name__=='__main__':	
     app.run(debug = True)
